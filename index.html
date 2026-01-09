@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For You 🤍</title>
+
+<style>
+body {
+  margin: 0;
+  background: #fff0f5;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.flower {
+   position: absolute;
+   font-size: 28px;
+   animation: fall 6s linear infinite;
+}
+
+@keyframes fall {
+  0% { top: -10%; opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+}
+
+.bouquet {
+  font-size: 90px;
+  cursor: pointer;
+  animation: float 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(255,182,193,0.9));
+  transition: transform 0.3s;
+}
+
+.bouquet.open {
+  transform: scale(1.2);
+}
+
+.message {
+  margin-top: 18px;
+  font-size: 22px;
+  color: #b03060;
+  min-height: 30px;
+}
+
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+</style>
+</head>
+
+<body>
+
+
+<div class="center">
+  <div class="bouquet" id="bouquet">💐</div>
+  <div class="message" id="message"></div>
+</div>
+
+
+<audio id="music" preload="auto" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+setInterval(() => {
+  const flower = document.createElement("div");
+  flower.className = "flower";
+  flower.innerHTML = "🌸";
+  flower.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(flower);
+  setTimeout(() => flower.remove(), 6000);
+}, 300);
+
+
+const text = "Every flower is a line of code, written just for you 🤍";
+let index = 0;
+let started = false;
+
+const bouquet = document.getElementById("bouquet");
+const music = document.getElementById("music");
+const message = document.getElementById("message");
+
+function typeText() {
+  if (index < text.length) {
+    message.innerHTML += text.charAt(index);
+    index++;
+    setTimeout(typeText, 60);
+  }
+}
+
+
+bouquet.addEventListener("click", () => {
+  if (started) return;   
+  started = true;
+
+  bouquet.classList.add("open");
+
+  
+  music.currentTime = 0;
+  music.play();
+
+  
+  typeText();
+});
+</script>
+
+</body>
+</html>
